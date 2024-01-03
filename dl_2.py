@@ -1,55 +1,27 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def AND(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([0.5, 0.5])
-    b = -0.7
 
-    tmp = sum(x*w) + b
-    if tmp <= 0:
-        return 0
-    else:
-        return 1
-def OR(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([0.5, 0.5])
-    b = -0.2
+def step_function(x):
+    y = x > 0
+    return y.astype(np.int64)
 
-    tmp = sum(x*w) + b
-    if tmp <= 0:
-        return 0
-    else:
-        return 1
-    
-def NAND(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([-0.5, -0.5])
-    b = 0.7
 
-    tmp = sum(x*w) + b
-    if tmp <= 0:
-        return 0
-    else:
-        return 1
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
 
-def XOR(x1, x2):
-    s1 = NAND(x1, x2)
-    s2 = OR(x1, x2)
-    y = AND(s1, s2)
+
+def softmax(a):
+    c = np.max(a)
+    exp_a = np.exp(a - c)
+    sum_exp_a = np.sum(exp_a)
+    y = exp_a / sum_exp_a
 
     return y
-# print(AND(0, 0)) # 0
-# print(AND(1, 0)) # 0
-# print(AND(0, 1)) # 0
-# print(AND(1, 1)) # 1
-    
-# print(NAND(0, 0)) # 0
-# print(NAND(1, 0)) # 0
-# print(NAND(0, 1)) # 0
-# print(NAND(1, 1)) # 1
 
-print(XOR(0, 0)) # 0
-print(XOR(1, 0)) # 0
-print(XOR(0, 1)) # 0
-print(XOR(1, 1)) # 1
+
+x = np.arange(-5.0, 5.0, 0.1)
+y = sigmoid(x)
+plt.plot(x, y)
+plt.ylim(-0.1, 1.1)
+plt.show()
