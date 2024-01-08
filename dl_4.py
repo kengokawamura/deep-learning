@@ -77,11 +77,12 @@ for i in range(iters_num):
     t_batch = t_train[batch_mask]
 
     # 勾配
-    grad = network.numerical_gradient(x_batch, t_batch)
+    # grad = network.numerical_gradient(x_batch, t_batch)
+    grad = network.gradient(x_batch, t_batch)
 
     # パラメータの更新
     for key in ("W1", "b1", "W2", "b2"):
-        network.params[key] = learning_rate * grad[key]
+        network.params[key] -= learning_rate * grad[key]
 
     # 学習結果の記録
     loss = network.loss(x_batch, t_batch)
@@ -89,7 +90,6 @@ for i in range(iters_num):
     print(f"今 #{i+1} 回")
 
 # グラフの描画
-print(train_loss_list)
 x = np.arange(len(train_loss_list))
 plt.plot(x, train_loss_list, label="loss")
 plt.xlabel("iteration")
